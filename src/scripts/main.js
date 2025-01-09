@@ -1,6 +1,5 @@
 'use strict';
 
-// write code here
 let refs = {};
 
 function refreshRefs() {
@@ -22,16 +21,21 @@ refs.removeRow.addEventListener('click', onRemoveHandler);
 refs.appendColumn.addEventListener('click', onAppendColHandler);
 refs.removeColumn.addEventListener('click', onRemoveColHandler);
 
+const maxRowColumn = 10;
+const minRowClumn = 2;
+const addDisabledMax = 9;
+const addDisabledMin = 3;
+
 function onAppendHandler() {
-  if (refs.tbody.children.length === 10) {
+  if (refs.tbody.children.length === maxRowColumn) {
     return;
   }
 
-  if (refs.tbody.children.length >= 2) {
+  if (refs.tbody.children.length >= minRowClumn) {
     refs.removeRow.removeAttribute('disabled');
   }
 
-  if (refs.tbody.children.length >= 9) {
+  if (refs.tbody.children.length >= addDisabledMax) {
     refs.appendRow.setAttribute('disabled', true);
   }
 
@@ -45,11 +49,11 @@ function onAppendHandler() {
 }
 
 function onRemoveHandler() {
-  if (refs.tbody.children.length <= 3) {
+  if (refs.tbody.children.length <= addDisabledMin) {
     refs.removeRow.setAttribute('disabled', true);
   }
 
-  if (refs.tbody.children.length <= 10) {
+  if (refs.tbody.children.length <= maxRowColumn) {
     refs.appendRow.removeAttribute('disabled');
   }
 
@@ -59,16 +63,16 @@ function onRemoveHandler() {
 function onAppendColHandler() {
   refreshRefs();
 
-  refs.trArr.forEach((row, idx) => {
-    if (row.children.length === 10) {
+  refs.trArr.forEach((row) => {
+    if (row.children.length === maxRowColumn) {
       return;
     }
 
-    if (row.children.length >= 9) {
+    if (row.children.length >= addDisabledMax) {
       refs.appendColumn.setAttribute('disabled', true);
     }
 
-    if (row.children.length >= 2) {
+    if (row.children.length >= minRowClumn) {
       refs.removeColumn.removeAttribute('disabled');
     }
 
@@ -80,11 +84,11 @@ function onAppendColHandler() {
 
 function onRemoveColHandler() {
   refs.trArr.forEach((el) => {
-    if (el.children.length <= 3) {
+    if (el.children.length <= addDisabledMin) {
       refs.removeColumn.setAttribute('disabled', true);
     }
 
-    if (el.children.length <= 10) {
+    if (el.children.length <= maxRowColumn) {
       refs.appendColumn.removeAttribute('disabled');
     }
     el.lastElementChild.remove();
